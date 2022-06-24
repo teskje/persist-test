@@ -1,0 +1,21 @@
+[package]
+name = "persist-test"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+mz-dataflow-types = { path = "../materialize/src/dataflow-types" }
+mz-persist-client = { path = "../materialize/src/persist-client" }
+mz-repr = { path = "../materialize/src/repr" }
+timely = { git = "https://github.com/TimelyDataflow/timely-dataflow", default-features = false, features = ["bincode"] }
+tokio = "1"
+
+[patch.crates-io]
+opentelemetry = { git = "https://github.com/MaterializeInc/opentelemetry-rust.git" }
+opentelemetry-otlp = { git = "https://github.com/MaterializeInc/opentelemetry-rust.git" }
+prost = { git = "https://github.com/MaterializeInc/prost.git", branch = "v0.10" }
+prost-build = { git = "https://github.com/MaterializeInc/prost.git", branch = "v0.10" }
+prost-derive = { git = "https://github.com/MaterializeInc/prost.git", branch = "v0.10" }
+prost-types = { git = "https://github.com/MaterializeInc/prost.git", branch = "v0.10" }
