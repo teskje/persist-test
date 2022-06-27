@@ -1,6 +1,8 @@
 use std::env;
 
 use mz_dataflow_types::sources::SourceData;
+use mz_ore::metrics::MetricsRegistry;
+use mz_persist_client::cache::PersistClientCache;
 use mz_persist_client::read::ListenEvent;
 use mz_persist_client::PersistLocation;
 use mz_repr::{Diff, Timestamp};
@@ -20,8 +22,10 @@ async fn main() {
         blob_uri,
         consensus_uri,
     };
-    let mut reader = location
-        .open()
+
+    let mut persist_clients = PersistClientCache::new(&MetricsRegistry::new());
+    let mut reader = persist_clients
+        .open(location)
         .await
         .expect("could not open persist client")
         .open_reader::<SourceData, (), Timestamp, Diff>(shard_id)

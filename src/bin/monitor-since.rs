@@ -2,6 +2,8 @@ use std::env;
 use std::time::Duration;
 
 use mz_dataflow_types::sources::SourceData;
+use mz_ore::metrics::MetricsRegistry;
+use mz_persist_client::cache::PersistClientCache;
 use mz_persist_client::PersistLocation;
 use mz_repr::{Diff, Timestamp};
 use tokio::time;
@@ -21,8 +23,10 @@ async fn main() {
         blob_uri,
         consensus_uri,
     };
-    let client = location
-        .open()
+
+    let mut persist_clients = PersistClientCache::new(&MetricsRegistry::new());
+    let client = persist_clients
+        .open(location)
         .await
         .expect("could not open persist client");
 

@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 mz-dataflow-types = { path = "../materialize/src/dataflow-types" }
+mz-ore = { path = "../materialize/src/ore" }
 mz-persist-client = { path = "../materialize/src/persist-client" }
 mz-repr = { path = "../materialize/src/repr" }
 timely = { git = "https://github.com/TimelyDataflow/timely-dataflow", default-features = false, features = ["bincode"] }
