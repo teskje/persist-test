@@ -6,10 +6,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-mz-dataflow-types = { path = "../materialize/src/dataflow-types" }
 mz-ore = { path = "../materialize/src/ore" }
 mz-persist-client = { path = "../materialize/src/persist-client" }
 mz-repr = { path = "../materialize/src/repr" }
+mz-storage = { path = "../materialize/src/storage" }
 timely = { git = "https://github.com/TimelyDataflow/timely-dataflow", default-features = false, features = ["bincode"] }
 tokio = "1"
 

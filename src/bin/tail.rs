@@ -1,11 +1,11 @@
 use std::env;
 
-use mz_dataflow_types::sources::SourceData;
 use mz_ore::metrics::MetricsRegistry;
 use mz_persist_client::cache::PersistClientCache;
 use mz_persist_client::read::ListenEvent;
 use mz_persist_client::PersistLocation;
 use mz_repr::{Diff, Timestamp};
+use mz_storage::client::sources::SourceData;
 
 #[tokio::main]
 async fn main() {

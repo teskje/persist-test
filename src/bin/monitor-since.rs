@@ -1,7 +1,7 @@
 use std::env;
 use std::time::Duration;
 
-use mz_dataflow_types::sources::SourceData;
+use mz_storage::client::sources::SourceData;
 use mz_ore::metrics::MetricsRegistry;
 use mz_persist_client::cache::PersistClientCache;
 use mz_persist_client::PersistLocation;
