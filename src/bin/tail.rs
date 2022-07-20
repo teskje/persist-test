@@ -1,11 +1,13 @@
 use std::env;
 
 use mz_ore::metrics::MetricsRegistry;
+use mz_ore::now::SYSTEM_TIME;
 use mz_persist_client::cache::PersistClientCache;
 use mz_persist_client::read::ListenEvent;
+use mz_persist_client::PersistConfig;
 use mz_persist_client::PersistLocation;
 use mz_repr::{Diff, Timestamp};
-use mz_storage::client::sources::SourceData;
+use mz_storage::types::sources::SourceData;
 
 #[tokio::main]
 async fn main() {
@@ -23,7 +25,10 @@ async fn main() {
         consensus_uri,
     };
 
-    let mut persist_clients = PersistClientCache::new(&MetricsRegistry::new());
+    let mut persist_clients = PersistClientCache::new(
+        PersistConfig::new(SYSTEM_TIME.clone()),
+        &MetricsRegistry::new(),
+    );
     let mut reader = persist_clients
         .open(location)
         .await
