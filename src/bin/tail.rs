@@ -29,7 +29,7 @@ async fn main() {
         PersistConfig::new(SYSTEM_TIME.clone()),
         &MetricsRegistry::new(),
     );
-    let mut reader = persist_clients
+    let reader = persist_clients
         .open(location)
         .await
         .expect("could not open persist client")
@@ -37,7 +37,7 @@ async fn main() {
         .await
         .expect("could not open persist shard");
 
-    let as_of = reader.since();
+    let as_of = reader.since().clone();
 
     let mut snapshot = reader
         .snapshot(as_of.clone())
@@ -52,21 +52,16 @@ async fn main() {
     }
 
     let mut listen = reader
-        .listen(as_of.clone())
+        .listen(as_of)
         .await
         .expect("cannot serve requested as_of");
 
     loop {
         for event in listen.next().await {
-            match event {
-                ListenEvent::Progress(upper) => {
-                    reader.downgrade_since(upper.clone()).await;
-                }
-                ListenEvent::Updates(updates) => {
-                    for ((key, _), ts, diff) in updates {
-                        let row = key.unwrap().0.unwrap();
-                        println!("{row}, {ts}, {diff}");
-                    }
+            if let ListenEvent::Updates(updates) = event {
+                for ((key, _), ts, diff) in updates {
+                    let row = key.unwrap().0.unwrap();
+                    println!("{row}, {ts}, {diff}");
                 }
             }
         }
